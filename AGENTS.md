@@ -67,6 +67,15 @@ Check `HEARTBEAT.md` on each poll. If nothing needs attention, reply `HEARTBEAT_
 - Local tool notes go in `TOOLS.md`
 - Skills define how tools work; check each skill's `SKILL.md`
 
+## Learnings
+
+When you discover something that works (or does not), add it to `spec/LEARNINGS.md`.
+New entries go at the top of the relevant section. Date your additions.
+
+This file is shared across sessions and agents. It is how institutional knowledge survives.
+
+> Current learnings: `spec/LEARNINGS.md`
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions as you learn what works.
