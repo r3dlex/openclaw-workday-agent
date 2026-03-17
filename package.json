@@ -1,0 +1,20 @@
+{
+  "name": "openclaw-workday-agent",
+  "version": "1.0.0",
+  "description": "OpenClaw agent for Workday HR operations — task approvals and time tracking via browser automation",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "approve": "node scripts/approve-workday.js",
+    "get-token": "node scripts/get-token.js",
+    "docker:build": "docker build -t openclaw-workday-agent .",
+    "docker:approve": "docker compose run --rm agent node scripts/approve-workday.js",
+    "docker:token": "docker compose run --rm agent node scripts/get-token.js"
+  },
+  "dependencies": {
+    "ws": "^8.19.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

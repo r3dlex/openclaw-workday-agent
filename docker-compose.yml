@@ -1,0 +1,13 @@
+# docker compose run --rm agent node scripts/approve-workday.js
+# docker compose run --rm agent node scripts/get-token.js
+
+services:
+  agent:
+    build: .
+    env_file: .env
+    # For CDP to reach Chrome on the host machine:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Override localhost→host.docker.internal for CDP calls
+    environment:
+      - CDP_HOST=host.docker.internal
