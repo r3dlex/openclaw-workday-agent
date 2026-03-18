@@ -15,6 +15,11 @@ class TestPipelineConfig:
 
     def test_defaults(self, monkeypatch):
         monkeypatch.setenv("WORKDAY_BASE_URL", "https://wd.test")
+        # Clear env vars that CI may set so we test true defaults
+        for var in ("BROWSER_STRATEGY", "SSO_PROVIDER_NAME", "PLAYWRIGHT_TIMEOUT",
+                     "PLAYWRIGHT_HEADLESS", "WORKDAY_TASKS_PATH",
+                     "WORKDAY_TIME_TRACKING_PATH", "WORKDAY_HOME_PATH"):
+            monkeypatch.delenv(var, raising=False)
         config = PipelineConfig()  # type: ignore[call-arg]
         assert config.WORKDAY_TASKS_PATH == "/tasks"
         assert config.WORKDAY_TIME_TRACKING_PATH == "/time-tracking"
