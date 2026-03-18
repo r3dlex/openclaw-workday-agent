@@ -21,7 +21,7 @@ through browser interactions — not API calls.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/openclaw-workday-agent.git
+git clone https://github.com/r3dlex/openclaw-workday-agent.git
 cd openclaw-workday-agent
 
 # Configure environment
@@ -48,10 +48,18 @@ docker compose run --rm agent node scripts/approve-workday.js
 AGENTS.md              # OpenClaw agent operating manual
 SOUL.md                # Agent identity & personality
 PROTOCOL.md            # HR operational protocol & compliance
+AGENT.md               # Workday navigation entry points
 spec/                  # Detailed behavioral specifications
+  ├── session-lifecycle.md
+  ├── safety-boundaries.md
+  ├── group-chat-protocol.md
+  ├── heartbeat-strategy.md
+  ├── company-norms.md   # Setup guide for compliance documents
+  └── LEARNINGS.md       # Operational knowledge base
 company-norms/         # Work council agreements (gitignored)
-scripts/               # Automation scripts
+scripts/               # Automation scripts (containerized)
 Dockerfile             # Zero-install container
+.env.example           # Environment variable template
 ```
 
 For developer documentation, see [CLAUDE.md](CLAUDE.md).
@@ -69,9 +77,13 @@ Markdown or PDF files. This directory is gitignored and never committed.
 The agent reads these for compliance decisions when approving Workday tasks. If absent,
 it falls back to the summary in [PROTOCOL.md](PROTOCOL.md).
 
-Expected files:
-- `company-norms/betriebsvereinbarung-arbeitszeit.md` — Working time agreement
-- `company-norms/betriebsvereinbarung-mobile-arbeit.md` — Mobile working agreement
+See [`spec/company-norms.md`](spec/company-norms.md) for the full setup guide. Expected files:
+
+- `company-norms/INDEX.md` — Agent entry point and decision framework
+- `company-norms/betriebsvereinbarung-arbeitszeit-de.md` — Working time agreement (German)
+- `company-norms/working-hours-agreement-en.md` — Working time agreement (English)
+- `company-norms/betriebsvereinbarung-mobile-arbeit-de.md` — Mobile working agreement (German)
+- `company-norms/mobile-working-agreement-en.md` — Mobile working agreement (English)
 
 ## How It Works
 

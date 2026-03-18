@@ -26,7 +26,9 @@ An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operati
 │   ├── session-lifecycle.md
 │   ├── safety-boundaries.md
 │   ├── group-chat-protocol.md
-│   └── heartbeat-strategy.md
+│   ├── heartbeat-strategy.md
+│   ├── company-norms.md   ← Committed stub for company-norms setup
+│   └── LEARNINGS.md       ← Operational knowledge base (maintained by agents)
 ├── company-norms/         ← Work council agreements (GITIGNORED, not committed)
 │   └── README.md          ← Explains what goes here
 ├── scripts/               ← Automation scripts (containerized)
@@ -58,6 +60,7 @@ An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operati
 See `.env.example` for the full list. Key variables:
 
 - `ORG_NAME` / `SSO_PROVIDER_NAME` — Organization name and SSO identity provider label
+- `ORG_TENANT_ID` / `ORG_TENANT_DIRECT_LINK` — Azure AD tenant and direct SSO fallback URL
 - `CHROME_CDP_TOKEN` / `CHROME_CDP_PORT` — Chrome DevTools Protocol auth
 - `WORKDAY_BASE_URL` — Workday tenant root
 - `WORKDAY_TIME_TRACKING_PATH` / `WORKDAY_TASKS_PATH` / `WORKDAY_HOME_PATH` — page paths
