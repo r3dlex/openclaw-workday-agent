@@ -27,7 +27,7 @@ jobs:
           echo "Scanning for sensitive data patterns..."
           if git ls-files | xargs grep -lnE \
             'RIB[/ ]|RZB|aveva|c5738e|0e1fd44|FYEO|redlexgilgamesh' 2>/dev/null | \
-            grep -v 'Makefile'; then
+            grep -vE '(Makefile|ci\.yml)'; then
             echo "::error::Sensitive data found in tracked files!"
             exit 1
           fi
