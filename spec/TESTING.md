@@ -110,15 +110,48 @@ make test-coverage
 - **Elixir**: `test <description>` (e.g., `test "pipeline retries on transient failure"`)
 - **Integration**: `test_<pipeline>_<scenario>` (e.g., `test_task_approval_happy_path`)
 
-## CI Considerations
+## GitHub Actions CI
 
-- **No live Workday in CI**: All tests use mocks and fixtures. No network access
-  to Workday is required.
-- **Docker-in-Docker**: Integration tests run in Docker Compose. CI must support
-  Docker-in-Docker or use a VM-based runner.
-- **Parallelism**: Python and Elixir unit tests can run in parallel. Integration
-  tests run sequentially.
-- **Artifacts**: Test failures save screenshots and JSON-lines logs as CI artifacts.
+The CI pipeline is defined in `.github/workflows/ci.yml` and runs on every push to
+`main` and on pull requests.
+
+### Pipeline Jobs
+
+```
+secrets-scan ──┬── python-tests (3.11, 3.12, 3.13)
+               ├── python-lint
+               ├── elixir-tests (1.17/OTP27, 1.18/OTP27)
+               ├── elixir-format
+               └── node-lint
+                        │
+               docker-build (after tests pass)
+```
+
+| Job | What it does |
+|-----|-------------|
+| `secrets-scan` | Scans all tracked files for company names, tenant IDs, tokens, local paths. Blocks all other jobs if secrets found. Also verifies `.env` and `company-norms/` are not tracked. |
+| `python-tests` | Runs pytest across Python 3.11/3.12/3.13 matrix with coverage |
+| `python-lint` | Compile-checks all Python source files |
+| `elixir-tests` | Runs ExUnit across Elixir 1.17/1.18 matrix with `--warnings-as-errors` |
+| `elixir-format` | Checks `mix format --check-formatted` |
+| `node-lint` | Syntax-checks legacy Node.js scripts |
+| `docker-build` | Validates all three Dockerfiles build successfully (no push) |
+
+### Security Gate
+
+The `secrets-scan` job is a prerequisite for all other jobs. It catches:
+- Company names, tenant IDs, CDP tokens, or local paths in committed files
+- `.env` accidentally tracked in git
+- `company-norms/` files accidentally committed
+
+### CI Environment Variables
+
+Tests in CI use dummy values only:
+- `WORKDAY_BASE_URL=https://wd3.myworkday.com/test_tenant`
+- `SSO_PROVIDER_NAME=TestCompany`
+- `BROWSER_STRATEGY=headless_only`
+
+No real credentials are stored in GitHub Actions. No live Workday access is needed.
 
 ## Coverage Targets
 

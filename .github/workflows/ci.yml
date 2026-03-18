@@ -1,0 +1,278 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ===========================================================================
+  # Security: Scan for accidentally committed secrets
+  # ===========================================================================
+  secrets-scan:
+    name: Secrets Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan tracked files for sensitive patterns
+        run: |
+          echo "Scanning for sensitive data patterns..."
+          if git ls-files | xargs grep -lnE \
+            'RIB[/ ]|RZB|aveva|c5738e|0e1fd44|FYEO|redlexgilgamesh' 2>/dev/null | \
+            grep -v 'Makefile'; then
+            echo "::error::Sensitive data found in tracked files!"
+            exit 1
+          fi
+          echo "Clean: no sensitive data detected."
+
+      - name: Verify .env is not tracked
+        run: |
+          if git ls-files --error-unmatch .env 2>/dev/null; then
+            echo "::error::.env file is tracked in git!"
+            exit 1
+          fi
+          echo "Confirmed: .env is not tracked."
+
+      - name: Verify company-norms is not tracked
+        run: |
+          if git ls-files | grep -q '^company-norms/'; then
+            echo "::error::company-norms/ directory has tracked files!"
+            exit 1
+          fi
+          echo "Confirmed: company-norms/ is not tracked."
+
+  # ===========================================================================
+  # Python Pipeline Runner
+  # ===========================================================================
+  python-tests:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+    defaults:
+      run:
+        working-directory: tools/pipeline_runner
+
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: tools/pipeline_runner/.venv
+          key: poetry-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('tools/pipeline_runner/poetry.lock') }}
+          restore-keys: |
+            poetry-${{ runner.os }}-py${{ matrix.python-version }}-
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Run tests with coverage
+        run: poetry run pytest -v --tb=short --cov=pipeline_runner --cov-report=xml --cov-report=term
+        env:
+          WORKDAY_BASE_URL: https://wd3.myworkday.com/test_tenant
+          SSO_PROVIDER_NAME: TestCompany
+          BROWSER_STRATEGY: headless_only
+
+      - name: Upload coverage
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage
+          path: tools/pipeline_runner/coverage.xml
+
+  python-lint:
+    name: Python Lint
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+    defaults:
+      run:
+        working-directory: tools/pipeline_runner
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Compile check (syntax validation)
+        run: |
+          poetry run python -m py_compile pipeline_runner/main.py
+          poetry run python -m py_compile pipeline_runner/config.py
+          poetry run python -m py_compile pipeline_runner/protocol.py
+          poetry run python -m py_compile pipeline_runner/browser.py
+          poetry run python -m py_compile pipeline_runner/actions/sso_login.py
+          poetry run python -m py_compile pipeline_runner/actions/task_approval.py
+          poetry run python -m py_compile pipeline_runner/actions/time_entry.py
+
+  # ===========================================================================
+  # Elixir Orchestrator
+  # ===========================================================================
+  elixir-tests:
+    name: Elixir Tests
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+    defaults:
+      run:
+        working-directory: orchestrator
+
+    strategy:
+      matrix:
+        include:
+          - elixir: "1.17"
+            otp: "27"
+          - elixir: "1.18"
+            otp: "27"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Cache Mix dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            orchestrator/deps
+            orchestrator/_build
+          key: mix-${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('orchestrator/mix.lock') }}
+          restore-keys: |
+            mix-${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile (warnings as errors)
+        run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test --trace
+        env:
+          MIX_ENV: test
+          BROWSER_STRATEGY: headless_first
+
+  elixir-format:
+    name: Elixir Format
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+    defaults:
+      run:
+        working-directory: orchestrator
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.17"
+          otp-version: "27"
+
+      - name: Check formatting
+        run: |
+          mix deps.get
+          mix format --check-formatted
+
+  # ===========================================================================
+  # Node.js Legacy Scripts
+  # ===========================================================================
+  node-lint:
+    name: Node.js Lint
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Syntax check scripts
+        run: |
+          node --check scripts/approve-workday.js
+          node --check scripts/get-token.js
+
+  # ===========================================================================
+  # Docker Build Validation
+  # ===========================================================================
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [python-tests, elixir-tests]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build pipeline-runner image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./tools/pipeline_runner
+          push: false
+          tags: pipeline-runner:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build orchestrator image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./orchestrator
+          push: false
+          tags: orchestrator:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build legacy agent image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: agent:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
