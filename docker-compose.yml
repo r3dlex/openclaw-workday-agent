@@ -1,13 +1,44 @@
-# docker compose run --rm agent node scripts/approve-workday.js
-# docker compose run --rm agent node scripts/get-token.js
+# =============================================================================
+# OpenClaw Workday Agent — Docker Compose
+# =============================================================================
+#
+# Usage:
+#   docker compose up -d                                       # Start orchestrator
+#   docker compose run --rm agent node scripts/approve-workday.js  # Legacy CDP relay
+#   docker compose run --rm pipeline-runner --action sso_login     # Run pipeline
+#
+# Testing:
+#   docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm pipeline-runner-test
+#   docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm orchestrator-test
+# =============================================================================
 
 services:
+  # --- Elixir Orchestrator (control plane) ---
+  orchestrator:
+    build: ./orchestrator
+    env_file: .env
+    depends_on:
+      - pipeline-runner
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - CDP_HOST=host.docker.internal
+      - PIPELINE_RUNNER_PATH=/app/pipeline_runner
+
+  # --- Python Pipeline Runner (headless browser automation) ---
+  pipeline-runner:
+    build: ./tools/pipeline_runner
+    env_file: .env
+    # Playwright needs shared memory for Chromium
+    shm_size: '2gb'
+    environment:
+      - PLAYWRIGHT_HEADLESS=true
+
+  # --- Legacy Node.js CDP Scripts (relay fallback) ---
   agent:
     build: .
     env_file: .env
-    # For CDP to reach Chrome on the host machine:
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    # Override localhost→host.docker.internal for CDP calls
     environment:
       - CDP_HOST=host.docker.internal

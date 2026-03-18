@@ -1,0 +1,19 @@
+# Test-specific overrides
+# Usage: docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm pipeline-runner-test
+
+services:
+  pipeline-runner-test:
+    build: ./tools/pipeline_runner
+    command: ["python", "-m", "pytest", "-v", "--tb=short"]
+    environment:
+      - WORKDAY_BASE_URL=https://wd3.myworkday.com/test_tenant
+      - SSO_PROVIDER_NAME=TestCompany
+      - BROWSER_STRATEGY=headless_only
+      - PLAYWRIGHT_HEADLESS=true
+
+  orchestrator-test:
+    build: ./orchestrator
+    command: ["mix", "test"]
+    environment:
+      - MIX_ENV=test
+      - BROWSER_STRATEGY=headless_first

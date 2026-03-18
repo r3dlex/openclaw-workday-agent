@@ -13,8 +13,10 @@ through browser interactions — not API calls.
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18+ **or** [Docker](https://www.docker.com/)
-- Chrome with DevTools Protocol enabled
+- [Docker](https://www.docker.com/) (recommended, zero-install) **or** local runtimes:
+  - Python 3.11+ with [Poetry](https://python-poetry.org/)
+  - [Elixir](https://elixir-lang.org/) 1.17+
+  - [Node.js](https://nodejs.org/) 18+
 - An [OpenClaw](https://docs.openclaw.ai/) workspace
 
 ### Setup
@@ -35,10 +37,14 @@ npm install
 ### Run
 
 ```bash
-# Local
-npm run approve
+# Docker (zero-install, recommended)
+docker compose up -d
 
-# Docker (zero-install)
+# Run tests
+make test          # Local (requires Python + Elixir)
+make test-docker   # Docker (zero-install)
+
+# Legacy CDP relay (requires Chrome with DevTools Protocol)
 docker compose run --rm agent node scripts/approve-workday.js
 ```
 
@@ -49,17 +55,19 @@ AGENTS.md              # OpenClaw agent operating manual
 SOUL.md                # Agent identity & personality
 PROTOCOL.md            # HR operational protocol & compliance
 AGENT.md               # Workday navigation entry points
-spec/                  # Detailed behavioral specifications
-  ├── session-lifecycle.md
-  ├── safety-boundaries.md
-  ├── group-chat-protocol.md
-  ├── heartbeat-strategy.md
-  ├── company-norms.md   # Setup guide for compliance documents
-  └── LEARNINGS.md       # Operational knowledge base
+spec/                  # Detailed specifications
+  ├── ARCHITECTURE.md    # System architecture (three-layer design)
+  ├── PIPELINES.md       # Pipeline definitions & lifecycle
+  ├── TESTING.md         # Test strategy & conventions
+  ├── LEARNINGS.md       # Operational knowledge base
+  ├── adr/               # Architecture Decision Records
+  └── ...                # Safety, session, heartbeat, group chat specs
+orchestrator/          # Elixir/OTP orchestration layer
+tools/pipeline_runner/ # Python/Playwright headless browser automation
+scripts/               # Legacy Node.js CDP relay (fallback)
 company-norms/         # Work council agreements (gitignored)
-scripts/               # Automation scripts (containerized)
-Dockerfile             # Zero-install container
 .env.example           # Environment variable template
+Makefile               # Developer commands (make test, make build, etc.)
 ```
 
 For developer documentation, see [CLAUDE.md](CLAUDE.md).
@@ -87,12 +95,20 @@ See [`spec/company-norms.md`](spec/company-norms.md) for the full setup guide. E
 
 ## How It Works
 
-The agent operates through Chrome DevTools Protocol (CDP) to interact with Workday's
-web interface. It connects to a running Chrome instance, finds the Workday tab, and
-performs actions via JavaScript evaluation.
+The system uses a three-layer architecture:
 
-The OpenClaw agent framework provides the conversational layer — reading pending tasks,
-checking compliance, asking for confirmation, and executing approvals.
+1. **OpenClaw Agent** (conversational layer) — Decides what to do, asks for user confirmation
+2. **Elixir Orchestrator** (control plane) — Coordinates pipeline steps, browser strategy, and LLM calls
+3. **Browser Backends** (execution layer):
+   - **Primary:** Python/Playwright headless browser (unattended operation)
+   - **Fallback:** Node.js CDP relay (connects to user's visible Chrome for MFA flows)
+
+Since Workday has no public API, all interactions use browser automation. The headless
+browser handles most operations; the CDP relay covers edge cases requiring a visible browser.
+
+> Architecture details: [`spec/ARCHITECTURE.md`](spec/ARCHITECTURE.md)
+> Pipeline definitions: [`spec/PIPELINES.md`](spec/PIPELINES.md)
+> Architecture decisions: [`spec/adr/`](spec/adr/)
 
 ## License
 

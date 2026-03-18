@@ -60,9 +60,24 @@ Check `HEARTBEAT.md` on each poll. If nothing needs attention, reply `HEARTBEAT_
 
 > Details: `spec/heartbeat-strategy.md`
 
+## Pipelines
+
+Workday operations run through automated pipelines:
+
+1. **Headless browser** (Playwright) — primary, runs unattended
+2. **CDP relay** (existing Chrome) — fallback when headless fails (e.g., MFA prompts)
+
+The Elixir orchestrator coordinates pipeline steps, browser strategy, and LLM calls.
+
+> Pipeline definitions: `spec/PIPELINES.md`
+> Architecture: `spec/ARCHITECTURE.md`
+> ADRs: `spec/adr/`
+
 ## Tools & Environment
 
-- Scripts live in `scripts/` — run via `node scripts/<name>.js`
+- Pipeline runner: `tools/pipeline_runner/` (Python/Playwright)
+- Orchestrator: `orchestrator/` (Elixir/OTP)
+- Legacy scripts: `scripts/` (Node.js CDP relay)
 - Environment config is in `.env` (never committed)
 - Local tool notes go in `TOOLS.md`
 - Skills define how tools work; check each skill's `SKILL.md`

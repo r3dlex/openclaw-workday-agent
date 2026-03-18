@@ -23,19 +23,34 @@ An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operati
 ├── TOOLS.md               ← Local environment notes (OpenClaw)
 ├── HEARTBEAT.md           ← Periodic task checklist (OpenClaw)
 ├── spec/                  ← Detailed specifications (referenced by AGENTS.md)
+│   ├── ARCHITECTURE.md    ← System architecture (three-layer design)
+│   ├── PIPELINES.md       ← Pipeline definitions & lifecycle
+│   ├── TESTING.md         ← Test strategy & conventions
+│   ├── LEARNINGS.md       ← Operational knowledge base (maintained by agents)
+│   ├── adr/               ← Architecture Decision Records (archgate/cli)
 │   ├── session-lifecycle.md
 │   ├── safety-boundaries.md
 │   ├── group-chat-protocol.md
 │   ├── heartbeat-strategy.md
-│   ├── company-norms.md   ← Committed stub for company-norms setup
-│   └── LEARNINGS.md       ← Operational knowledge base (maintained by agents)
+│   └── company-norms.md   ← Committed stub for company-norms setup
+├── orchestrator/          ← Elixir/OTP orchestration layer
+│   ├── lib/orchestrator/  ← Pipeline runner, browser manager, workday steps
+│   ├── test/              ← ExUnit tests
+│   └── mix.exs
+├── tools/
+│   └── pipeline_runner/   ← Python/Playwright headless browser automation
+│       ├── pipeline_runner/ ← Actions, selectors, protocol, browser
+│       ├── tests/         ← Pytest tests
+│       └── pyproject.toml ← Poetry project
 ├── company-norms/         ← Work council agreements (GITIGNORED, not committed)
 │   └── README.md          ← Explains what goes here
-├── scripts/               ← Automation scripts (containerized)
+├── scripts/               ← Legacy Node.js CDP scripts (relay fallback)
 │   ├── approve-workday.js
 │   └── get-token.js
-├── Dockerfile             ← Zero-install container
-├── docker-compose.yml     ← Orchestration
+├── Makefile               ← Developer commands (make test, make build)
+├── Dockerfile             ← Zero-install container (Node.js legacy)
+├── docker-compose.yml     ← Multi-service orchestration
+├── docker-compose.test.yml ← Test overrides
 ├── package.json
 ├── .env.example           ← Template for environment variables
 └── .env                   ← Actual secrets (GITIGNORED)
@@ -46,7 +61,7 @@ An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operati
 | Audience | Files |
 |----------|-------|
 | **OpenClaw agent** (runtime) | AGENTS.md, SOUL.md, PROTOCOL.md, AGENT.md, IDENTITY.md, USER.md, TOOLS.md, HEARTBEAT.md, `company-norms/`, `spec/` |
-| **Dev agents** (you) | CLAUDE.md, README.md, `scripts/`, Dockerfile, docker-compose.yml, package.json, `.env.example` |
+| **Dev agents** (you) | CLAUDE.md, README.md, `scripts/`, `orchestrator/`, `tools/`, Makefile, Dockerfile(s), docker-compose.yml, `.env.example`, `spec/adr/`, `spec/ARCHITECTURE.md`, `spec/PIPELINES.md`, `spec/TESTING.md` |
 
 ## Key Principles
 
@@ -65,21 +80,32 @@ See `.env.example` for the full list. Key variables:
 - `WORKDAY_BASE_URL` — Workday tenant root
 - `WORKDAY_TIME_TRACKING_PATH` / `WORKDAY_TASKS_PATH` / `WORKDAY_HOME_PATH` — page paths
 
-## Scripts
+## Components
 
-| Script | Purpose |
-|--------|---------|
-| `scripts/approve-workday.js` | Click "Approve" on a Workday task via CDP |
-| `scripts/get-token.js` | Extract OpenClaw gateway auth token |
+| Component | Language | Purpose |
+|-----------|----------|---------|
+| `orchestrator/` | Elixir/OTP | Pipeline coordination, browser strategy, fault tolerance |
+| `tools/pipeline_runner/` | Python | Playwright headless browser automation |
+| `scripts/` | Node.js | Legacy CDP relay scripts (fallback) |
 
-Run locally: `node scripts/approve-workday.js`
-Run in Docker: `docker compose run --rm agent node scripts/approve-workday.js`
+### Running
+
+```bash
+make test            # Run all tests (Python + Elixir)
+make test-docker     # Run tests in Docker (zero-install)
+make build           # Build all Docker images
+docker compose up -d # Start orchestrator + pipeline runner
+```
+
+> Architecture: `spec/ARCHITECTURE.md` | Pipelines: `spec/PIPELINES.md` | Testing: `spec/TESTING.md`
 
 ## Making Changes
 
 - **Agent behavior:** Edit AGENTS.md, SOUL.md, PROTOCOL.md, or files in `spec/`
 - **Compliance rules:** Update PROTOCOL.md summary AND the full docs in `company-norms/`
-- **Automation scripts:** Edit files in `scripts/`, rebuild Docker image
+- **Pipelines:** Edit `tools/pipeline_runner/` (Python) or `orchestrator/` (Elixir), run `make test`
+- **Legacy scripts:** Edit files in `scripts/`, rebuild Docker image
+- **Architecture decisions:** Add ADRs in `spec/adr/` following the template
 - **New env vars:** Add to both `.env` and `.env.example` (with dummy values in example)
 
 ## Conventions
