@@ -15,7 +15,7 @@ RUN mix local.hex --force && \
     mix local.rebar --force
 
 # Install dependencies
-COPY mix.exs ./
+COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV && \
     mix deps.compile
 
