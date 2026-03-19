@@ -35,6 +35,9 @@ Track check timestamps in `memory/heartbeat-state.json`.
 - Something interesting discovered
 - Been >8h since last message
 
+When reaching out, also send a Telegram notification for high-priority items
+(overdue tasks, compliance warnings). See `spec/notifications.md`.
+
 ## When to Stay Quiet (HEARTBEAT_OK)
 
 - Late night (23:00-08:00) unless urgent

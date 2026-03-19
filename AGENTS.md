@@ -82,6 +82,27 @@ The Elixir orchestrator coordinates pipeline steps, browser strategy, and LLM ca
 - Local tool notes go in `TOOLS.md`
 - Skills define how tools work; check each skill's `SKILL.md`
 
+## Notifications
+
+Send important events to the user via Telegram. Not everything; only what matters.
+
+**Always notify:** task approvals/denials, compliance warnings, pipeline failures
+**Never notify:** routine heartbeats, intermediate steps, duplicates within 5 min
+
+If `TELEGRAM_BOT_TOKEN` or `TELEGRAM_CHAT_ID` is empty in `.env`, skip silently and log a warning.
+
+> Details: `spec/notifications.md`
+
+## Logging
+
+Operational logs go to `logs/`. Key log files:
+
+- `logs/notifications.log` — all notification attempts (sent, skipped, failed)
+- `logs/pipeline.log` — pipeline execution events
+- `logs/agent.log` — general agent activity
+
+Write logs with timestamps. These files are gitignored but the directory is tracked via `.gitkeep`.
+
 ## Learnings
 
 When you discover something that works (or does not), add it to `spec/LEARNINGS.md`.

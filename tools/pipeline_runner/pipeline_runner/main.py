@@ -13,11 +13,32 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import logging
+import os
 import sys
+from pathlib import Path
 
 from pipeline_runner.browser import BrowserManager
 from pipeline_runner.config import PipelineConfig
 from pipeline_runner.protocol import Request, Response, format_response, parse_request
+
+
+def setup_logging(config: PipelineConfig) -> None:
+    """Configure logging to both stderr and file."""
+    log_dir = Path(config.LOG_DIR)
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / "pipeline.log"
+
+    level = getattr(logging, config.LOG_LEVEL.upper(), logging.INFO)
+
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stderr),
+            logging.FileHandler(log_file),
+        ],
+    )
 
 
 async def dispatch(
@@ -152,6 +173,7 @@ def main() -> None:
 
     args = parser.parse_args()
     config = PipelineConfig()  # type: ignore[call-arg]
+    setup_logging(config)
 
     if args.stdio:
         asyncio.run(run_stdio(config))

@@ -11,7 +11,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # === Runtime & Logs ===
-logs/
+logs/*
+!logs/.gitkeep
 reports/
 *.log
 
