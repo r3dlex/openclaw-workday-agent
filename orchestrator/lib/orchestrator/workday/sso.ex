@@ -35,7 +35,9 @@ defmodule Orchestrator.Workday.SSO do
   """
   @spec step_detect_login_screen(map()) :: {:ok, map()} | {:error, String.t()}
   def step_detect_login_screen(context) do
-    case Manager.execute(:detect_element, %{selectors: ["[data-automation-id='loginScreen']", ".login-form", "#login"]}) do
+    case Manager.execute(:detect_element, %{
+           selectors: ["[data-automation-id='loginScreen']", ".login-form", "#login"]
+         }) do
       {:ok, %{"found" => true} = result} ->
         {:ok, Map.put(context, :login_screen_detected, true) |> Map.put(:login_state, result)}
 
@@ -100,7 +102,9 @@ defmodule Orchestrator.Workday.SSO do
   """
   @spec step_verify_authenticated(map()) :: {:ok, map()} | {:error, String.t()}
   def step_verify_authenticated(context) do
-    case Manager.execute(:detect_element, %{selectors: ["[data-automation-id='globalNav']", ".home-page", "#dashboard"]}) do
+    case Manager.execute(:detect_element, %{
+           selectors: ["[data-automation-id='globalNav']", ".home-page", "#dashboard"]
+         }) do
       {:ok, %{"found" => true}} ->
         {:ok, Map.put(context, :authenticated, true)}
 

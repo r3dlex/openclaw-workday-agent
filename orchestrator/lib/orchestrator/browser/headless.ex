@@ -38,7 +38,8 @@ defmodule Orchestrator.Browser.Headless do
 
   @impl true
   def init(_opts) do
-    runner_path = Application.get_env(:orchestrator, :pipeline_runner_path, "../tools/pipeline_runner")
+    runner_path =
+      Application.get_env(:orchestrator, :pipeline_runner_path, "../tools/pipeline_runner")
 
     case open_port(runner_path) do
       {:ok, port} ->
