@@ -71,7 +71,7 @@ Discover live agents via `GET $IAMQ_HTTP_URL/agents`. Common ones:
 - Use `"to": "broadcast"` to send to all agents.
 - Message types: `request`, `response`, `info`, `error`.
 - Priorities: `URGENT`, `HIGH`, `NORMAL`, `LOW`.
-- Telegram is the user-facing log. The MQ is the inter-agent backbone.
+- The MQ is the inter-agent backbone. OpenClaw handles user-facing notifications natively.
 
 ## Why Separate?
 

@@ -43,5 +43,4 @@
 - All env vars (`IAMQ_HTTP_URL`, `IAMQ_AGENT_ID`) are in `.env`.
 - See `TOOLS.md` for the full IAMQ API reference and sibling agent list.
 - For the full IAMQ protocol, read `spec/PROTOCOL.md` in the MQ workspace.
-- Telegram is the user-facing log. The MQ is the inter-agent backbone.
 - If `IAMQ_HTTP_URL` is empty, skip IAMQ steps silently.

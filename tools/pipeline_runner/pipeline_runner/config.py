@@ -36,14 +36,6 @@ class PipelineConfig(BaseSettings):
     # Browser strategy: "headless_first", "cdp_only", "headed"
     BROWSER_STRATEGY: str = "headless_first"
 
-    # Telegram notifications
-    TELEGRAM_BOT_TOKEN: str = ""
-    TELEGRAM_CHAT_ID: str = ""
-
-    # Logging
-    LOG_LEVEL: str = "info"
-    LOG_DIR: str = "logs"
-
     model_config = {
         "env_file": [str(f) for f in _ENV_FILES],
         "env_file_encoding": "utf-8",

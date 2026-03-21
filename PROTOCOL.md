@@ -68,20 +68,6 @@ Validate entries against:
 Mobile work must be performed within Germany unless explicitly authorized.
 Recording rules are the same as office.
 
-## Notifications
-
-After completing a task action or detecting a compliance issue, send a Telegram notification.
-See `spec/notifications.md` for the full spec.
-
-**Mandatory notifications:**
-- Task approved, denied, or sent back (include task summary)
-- Compliance violation detected (include rule and value)
-- Pipeline failure requiring user attention
-
-**Optional notifications:**
-- Daily time tracking reminder (if no entry by 17:00)
-- Heartbeat findings (overdue tasks, calendar conflicts)
-
 ## Interaction Style
 
 - **Tone:** Professional, compliance-focused, efficient

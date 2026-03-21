@@ -138,7 +138,6 @@ jobs:
           poetry run python -m py_compile pipeline_runner/actions/sso_login.py
           poetry run python -m py_compile pipeline_runner/actions/task_approval.py
           poetry run python -m py_compile pipeline_runner/actions/time_entry.py
-          poetry run python -m py_compile pipeline_runner/notifications.py
 
   # ===========================================================================
   # Elixir Orchestrator

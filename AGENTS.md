@@ -105,22 +105,10 @@ You are part of a multi-agent environment connected via the Inter-Agent Message 
 > API reference and sibling agents: `TOOLS.md`
 > Heartbeat protocol: `HEARTBEAT.md`
 
-## Notifications
-
-Send important events to the user via Telegram. Not everything; only what matters.
-
-**Always notify:** task approvals/denials, compliance warnings, pipeline failures
-**Never notify:** routine heartbeats, intermediate steps, duplicates within 5 min
-
-If `TELEGRAM_BOT_TOKEN` or `TELEGRAM_CHAT_ID` is empty in `.env`, skip silently and log a warning.
-
-> Details: `spec/notifications.md`
-
 ## Logging
 
 Operational logs go to `logs/`. Key log files:
 
-- `logs/notifications.log` — all notification attempts (sent, skipped, failed)
 - `logs/pipeline.log` — pipeline execution events
 - `logs/agent.log` — general agent activity
 

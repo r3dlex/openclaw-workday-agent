@@ -105,27 +105,15 @@ Each message is a single JSON object on one line:
 <- {"status": "ok", "data": {"title": "My Tasks"}}
 ```
 
-## Notifications
-
-Both the orchestrator and the Python runner can send Telegram notifications
-for important events (task approvals, compliance warnings, pipeline failures).
-Configuration via `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in `.env`.
-
-See [notifications.md](notifications.md) for the full spec.
-
 ## Logging
 
 Runtime logs go to the `logs/` directory (gitignored, `.gitkeep` tracked):
 
 - `logs/pipeline.log` — pipeline execution events (Python runner)
-- `logs/notifications.log` — notification delivery audit trail
 - `logs/agent.log` — general agent activity
-
-Log level is configured via `LOG_LEVEL` in `.env`.
 
 ## Further Reading
 
 - [ADR index](adr/README.md) for architectural decisions
 - [PIPELINES.md](PIPELINES.md) for pipeline definitions and protocol spec
 - [TESTING.md](TESTING.md) for test strategy
-- [notifications.md](notifications.md) for notification spec

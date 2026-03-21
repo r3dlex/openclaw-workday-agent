@@ -28,7 +28,6 @@ An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operati
 │   ├── TESTING.md         ← Test strategy & conventions
 │   ├── LEARNINGS.md       ← Operational knowledge base (maintained by agents)
 │   ├── adr/               ← Architecture Decision Records (archgate/cli)
-│   ├── notifications.md   ← Telegram notification spec
 │   ├── session-lifecycle.md
 │   ├── safety-boundaries.md
 │   ├── group-chat-protocol.md
@@ -81,8 +80,7 @@ See `.env.example` for the full list. Key variables:
 - `CHROME_CDP_TOKEN` / `CHROME_CDP_PORT` — Chrome DevTools Protocol auth
 - `WORKDAY_BASE_URL` — Workday tenant root
 - `WORKDAY_TIME_TRACKING_PATH` / `WORKDAY_TASKS_PATH` / `WORKDAY_HOME_PATH` — page paths
-- `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` — Telegram Bot API for notifications
-- `LOG_LEVEL` / `LOG_DIR` — Logging configuration
+- `IAMQ_HTTP_URL` / `IAMQ_WS_URL` / `IAMQ_AGENT_ID` — Inter-Agent Message Queue
 
 ## Components
 
@@ -110,7 +108,6 @@ docker compose up -d # Start orchestrator + pipeline runner
 - **Pipelines:** Edit `tools/pipeline_runner/` (Python) or `orchestrator/` (Elixir), run `make test`
 - **Legacy scripts:** Edit files in `scripts/`, rebuild Docker image
 - **Architecture decisions:** Add ADRs in `spec/adr/` following the template
-- **Notifications:** Update `spec/notifications.md` and notification modules in orchestrator/Python
 - **New env vars:** Add to both `.env` and `.env.example` (with dummy values in example)
 
 ## Conventions

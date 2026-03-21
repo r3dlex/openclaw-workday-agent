@@ -35,8 +35,8 @@ Track check timestamps in `memory/heartbeat-state.json`.
 - Something interesting discovered
 - Been >8h since last message
 
-When reaching out, also send a Telegram notification for high-priority items
-(overdue tasks, compliance warnings). See `spec/notifications.md`.
+For high-priority items (overdue tasks, compliance warnings), message the user
+directly or send an IAMQ broadcast so sibling agents are aware.
 
 ## When to Stay Quiet (HEARTBEAT_OK)
 
