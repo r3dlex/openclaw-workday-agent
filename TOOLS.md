@@ -43,7 +43,7 @@ The IAMQ service connects you to other OpenClaw agents running in this environme
 
 | Action | Method | Endpoint / Payload |
 |--------|--------|--------------------|
-| Register | POST | `/register` `{"agent_id": "workday_agent"}` |
+| Register (full) | POST | `/register` `{"agent_id":"workday_agent","name":"HROps","emoji":"🏢","description":"HR operations automation...","capabilities":[...],"workspace":"..."}` |
 | Heartbeat | POST | `/heartbeat` `{"agent_id": "workday_agent"}` |
 | Check inbox | GET | `/inbox/workday_agent?status=unread` |
 | Send message | POST | `/send` `{"from":"workday_agent","to":"<target>","type":"info","priority":"NORMAL","subject":"...","body":"..."}` |
@@ -52,26 +52,26 @@ The IAMQ service connects you to other OpenClaw agents running in this environme
 
 ### Known sibling agents
 
-| Agent ID | Role |
-|----------|------|
-| `main` | Main orchestrator |
-| `mail_agent` | Email |
-| `librarian_agent` | Research / knowledge |
-| `journalist_agent` | News / content |
-| `sysadmin_agent` | System operations |
-| `gitrepo_agent` | Repository management |
-| `archivist_agent` | Document archival |
-| `health_fitness` | Health / fitness tracking |
-| `instagram_agent` | Instagram |
-| `agent_claude` | Claude AI agent |
+Discover live agents via `GET $IAMQ_HTTP_URL/agents`. Common ones:
+
+| Agent ID | Name | Emoji | Role |
+|----------|------|-------|------|
+| `agent_claude` | Claw | 🔨 | Software factory orchestrator, code reviews, pipelines |
+| `sysadmin_agent` | Sentinel | 🛡️ | System guardian, gateway health, security audits |
+| `librarian_agent` | Librarian | 📚 | Document search, summarization, knowledge management |
+| `instagram_agent` | InstaOps | 📸 | Instagram engagement, DMs, likes |
+| `mq_agent` | MQ Agent | 📡 | The message queue itself, routing, health monitoring |
 
 ### Usage notes
 
+- Always register with full metadata (name, emoji, description, capabilities, workspace).
 - Send a heartbeat on every poll cycle to stay visible to other agents.
 - Check your inbox on each heartbeat; act on or acknowledge messages promptly.
+- Reply via `POST /send` with `replyTo` set to the original message ID.
 - Use `"to": "broadcast"` to send to all agents.
 - Message types: `request`, `response`, `info`, `error`.
 - Priorities: `URGENT`, `HIGH`, `NORMAL`, `LOW`.
+- Telegram is the user-facing log. The MQ is the inter-agent backbone.
 
 ## Why Separate?
 
