@@ -82,6 +82,29 @@ The Elixir orchestrator coordinates pipeline steps, browser strategy, and LLM ca
 - Local tool notes go in `TOOLS.md`
 - Skills define how tools work; check each skill's `SKILL.md`
 
+## Inter-Agent Communication
+
+You are part of a multi-agent environment connected via the Inter-Agent Message Queue (IAMQ).
+
+**On every poll cycle:**
+1. Send a heartbeat so other agents know you are online
+2. Check your inbox for messages from other agents
+3. Respond or act on messages before checking Workday
+
+**When to message other agents:**
+- Ask `librarian_agent` for research on unfamiliar compliance topics
+- Inform `mail_agent` if a task approval needs email follow-up
+- Notify `sysadmin_agent` of infrastructure issues (browser failures, service outages)
+- Send `info` broadcasts for significant events (completed approvals, compliance warnings)
+
+**When NOT to message:**
+- Routine heartbeats (those go to the MQ, not to agents)
+- Intermediate pipeline steps
+- Anything you can resolve yourself
+
+> API reference and sibling agents: `TOOLS.md`
+> Heartbeat protocol: `HEARTBEAT.md`
+
 ## Notifications
 
 Send important events to the user via Telegram. Not everything; only what matters.
