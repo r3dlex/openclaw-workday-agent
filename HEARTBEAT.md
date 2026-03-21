@@ -10,7 +10,7 @@
      "name": "HROps",
      "emoji": "🏢",
      "description": "HR operations automation — Workday task approvals, time tracking, compliance checks",
-     "capabilities": ["workday_approvals", "time_tracking", "compliance_checks", "hr_notifications"],
+     "capabilities": ["workday_approvals", "time_tracking", "compliance_checks"],
      "workspace": "<absolute path to this workspace>"
    }
    ```
