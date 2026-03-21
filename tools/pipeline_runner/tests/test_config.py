@@ -20,7 +20,8 @@ class TestPipelineConfig:
                      "PLAYWRIGHT_HEADLESS", "WORKDAY_TASKS_PATH",
                      "WORKDAY_TIME_TRACKING_PATH", "WORKDAY_HOME_PATH"):
             monkeypatch.delenv(var, raising=False)
-        config = PipelineConfig()  # type: ignore[call-arg]
+        # Disable .env file loading to test true defaults
+        config = PipelineConfig(_env_file=None)  # type: ignore[call-arg]
         assert config.WORKDAY_TASKS_PATH == "/tasks"
         assert config.WORKDAY_TIME_TRACKING_PATH == "/time-tracking"
         assert config.WORKDAY_HOME_PATH == "/home"
@@ -38,4 +39,5 @@ class TestPipelineConfig:
         # WORKDAY_BASE_URL is required and has no default
         monkeypatch.delenv("WORKDAY_BASE_URL", raising=False)
         with pytest.raises(Exception):
-            PipelineConfig()  # type: ignore[call-arg]
+            # Disable .env file so the required var is truly missing
+            PipelineConfig(_env_file=None)  # type: ignore[call-arg]

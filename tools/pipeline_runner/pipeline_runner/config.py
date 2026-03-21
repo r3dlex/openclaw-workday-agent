@@ -1,6 +1,15 @@
 """Configuration loaded from environment variables via pydantic-settings."""
 
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
+
+# Resolve workspace root .env: tools/pipeline_runner/pipeline_runner/config.py -> repo root
+_WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
+_ENV_FILES = [
+    _WORKSPACE_ROOT / ".env",  # workspace root (primary)
+    Path(".env"),               # cwd fallback
+]
 
 
 class PipelineConfig(BaseSettings):
@@ -36,7 +45,7 @@ class PipelineConfig(BaseSettings):
     LOG_DIR: str = "logs"
 
     model_config = {
-        "env_file": ".env",
+        "env_file": [str(f) for f in _ENV_FILES],
         "env_file_encoding": "utf-8",
         "extra": "ignore",
     }

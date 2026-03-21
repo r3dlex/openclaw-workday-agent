@@ -15,6 +15,13 @@ What works, what breaks, and what we learned the hard way.
 | 2 | **After SSO redirect, re-navigate** | The redirect does not always land on the originally requested page. After authentication completes, navigate back to the target `WORKDAY_TASKS_PATH` or `WORKDAY_TIME_TRACKING_PATH` explicitly. |
 | 3 | **Session cookies expire silently** | A tab that was logged in hours ago may have an expired session. Check for login prompts before assuming the page is ready. |
 
+## Pipeline Runner Configuration
+
+| # | Learning | Detail |
+|---|----------|--------|
+| 1 | **`.env` must be found from workspace root** | The pipeline runner is in `tools/pipeline_runner/` but `.env` lives at the workspace root. Pydantic Settings `env_file=".env"` resolves relative to cwd, not the module. Fixed by resolving the workspace root path via `Path(__file__).parents[3]` and passing both root `.env` and cwd `.env` as fallback. (2026-03-21) |
+| 2 | **Tests must disable `.env` file loading** | Config tests that assert defaults will pick up values from the workspace `.env` file. Use `PipelineConfig(_env_file=None)` in tests that check default values. (2026-03-21) |
+
 ## Chrome DevTools Protocol (CDP)
 
 | # | Learning | Detail |
@@ -93,4 +100,4 @@ What works, what breaks, and what we learned the hard way.
 
 ---
 
-*Last updated: 2026-03-17*
+*Last updated: 2026-03-21*
