@@ -6,6 +6,8 @@ defmodule Orchestrator.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Inter-Agent Message Queue client (register, heartbeat, inbox polling)
+      Orchestrator.MqClient,
       Orchestrator.Pipeline.Runner,
       Orchestrator.Browser.Manager
     ]
