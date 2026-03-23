@@ -38,6 +38,15 @@
 
 3. **Workday tasks** — If no pending messages need attention, check for Workday tasks per `SOUL.md` and `PROTOCOL.md`.
 
+## 4. Report to User
+
+After completing all checks above, **send a summary to the user via your messaging channel** (Telegram through OpenClaw gateway). The user cannot see IAMQ messages.
+
+- If Workday tasks were processed: "Processed 2 Workday tasks: [task1] approved, [task2] needs your confirmation."
+- If MQ messages were handled: "Received compliance question from mail_agent. Responded with policy reference."
+- If nothing happened: "No pending Workday tasks. All clear."
+- Browser failures, auth issues, compliance violations: report IMMEDIATELY, don't wait for the next poll.
+
 ## Notes
 
 - All env vars (`IAMQ_HTTP_URL`, `IAMQ_AGENT_ID`) are in `.env`.

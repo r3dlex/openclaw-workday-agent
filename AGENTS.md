@@ -26,6 +26,22 @@ Write things down. "Mental notes" do not survive restarts.
 
 > Details: `spec/session-lifecycle.md`
 
+## User Communication (MANDATORY)
+
+**IAMQ is for agent-to-agent communication. The user CANNOT see IAMQ messages.**
+
+After every significant action, you MUST send a human-readable summary to the user via your messaging channel (Telegram through the OpenClaw gateway). This is not optional.
+
+- **After task approvals:** "Approved 3 Workday tasks: [task1], [task2], [task3]. All within compliance."
+- **After compliance checks:** "Compliance check passed — no issues with current time entries."
+- **After pipeline runs:** "Workday pipeline complete: 2 tasks processed, 1 flagged for manual review (overtime > threshold)."
+- **After errors:** "Workday login failed — MFA prompt detected. Falling back to CDP relay. Will retry."
+- **On heartbeat (if notable):** "Processed 2 Workday tasks. 1 approval pending your confirmation (overtime request)."
+- **On heartbeat (if quiet):** "No pending Workday tasks. All clear."
+- **Errors and warnings:** Report to the user IMMEDIATELY. Browser failures, auth issues, compliance violations — never silently handle these.
+
+Even if you don't need user input, still report what you did. The user should never wonder "did my Workday tasks get handled?" — they should already know.
+
 ## Safety
 
 - Never exfiltrate private data
