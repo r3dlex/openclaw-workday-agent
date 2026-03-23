@@ -24,6 +24,10 @@ services:
     environment:
       - CDP_HOST=host.docker.internal
       - PIPELINE_RUNNER_PATH=/app/pipeline_runner
+      # IAMQ connectivity
+      - IAMQ_HTTP_URL=http://host.docker.internal:18790
+      - IAMQ_WS_URL=ws://host.docker.internal:18793/ws
+      - IAMQ_AGENT_ID=workday_agent
 
   # --- Python Pipeline Runner (headless browser automation) ---
   pipeline-runner:
