@@ -7,7 +7,7 @@ This file is for environment-specific details: tool endpoints, local paths, infr
 The IAMQ service connects you to other OpenClaw agents running in this environment.
 
 - **HTTP API:** `IAMQ_HTTP_URL` from `.env` (default `http://127.0.0.1:18790`)
-- **WebSocket:** `IAMQ_WS_URL` from `.env` (default `ws://127.0.0.1:18791/ws`)
+- **WebSocket:** `IAMQ_WS_URL` from `.env` (default `ws://127.0.0.1:18793/ws`)
 - **Your agent ID:** `IAMQ_AGENT_ID` from `.env` (default `workday_agent`)
 
 ### Quick reference
