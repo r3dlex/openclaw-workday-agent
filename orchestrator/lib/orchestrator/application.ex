@@ -8,6 +8,9 @@ defmodule Orchestrator.Application do
     children = [
       # Inter-Agent Message Queue client (register, heartbeat, inbox polling)
       Orchestrator.MqClient,
+
+      # IAMQ WebSocket client (real-time message push)
+      Orchestrator.MqWsClient,
       Orchestrator.Pipeline.Runner,
       Orchestrator.Browser.Manager
     ]

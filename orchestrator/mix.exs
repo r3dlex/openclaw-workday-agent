@@ -25,7 +25,8 @@ defmodule Orchestrator.MixProject do
   defp deps do
     [
       {:jason, "~> 1.4"},
-      {:req, "~> 0.5"}
+      {:req, "~> 0.5"},
+      {:websockex, "~> 0.5"}
     ]
   end
 end
