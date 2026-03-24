@@ -40,12 +40,11 @@
 
 ## 4. Report to User
 
-After completing all checks above, **send a summary to the user via your messaging channel** (Telegram through OpenClaw gateway). The user cannot see IAMQ messages.
-
-- If Workday tasks were processed: "Processed 2 Workday tasks: [task1] approved, [task2] needs your confirmation."
-- If MQ messages were handled: "Received compliance question from mail_agent. Responded with policy reference."
-- If nothing happened: "No pending Workday tasks. All clear."
-- Browser failures, auth issues, compliance violations: report IMMEDIATELY, don't wait for the next poll.
+Send a Telegram summary ONLY when there's something worth reporting:
+- Workday tasks processed, approvals completed, MQ messages handled.
+  Example: "Processed 2 Workday tasks: [task1] approved, [task2] needs your confirmation."
+- Browser failures, auth issues, compliance violations: report IMMEDIATELY.
+- Do NOT send a message if nothing happened. Silent heartbeats are fine.
 
 ## Notes
 
