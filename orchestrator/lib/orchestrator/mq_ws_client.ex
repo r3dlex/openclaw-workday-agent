@@ -125,7 +125,10 @@ defmodule Orchestrator.MqWsClient do
 
   @impl true
   def handle_disconnect(%{reason: reason}, state) do
-    Logger.warning("[MQ-WS] Disconnected: #{inspect(reason)}. Reconnecting in #{@reconnect_interval}ms...")
+    Logger.warning(
+      "[MQ-WS] Disconnected: #{inspect(reason)}. Reconnecting in #{@reconnect_interval}ms..."
+    )
+
     Process.sleep(@reconnect_interval)
     {:reconnect, %{state | registered: false}}
   end
@@ -158,7 +161,9 @@ defmodule Orchestrator.MqWsClient do
         Logger.info("[MQ-WS] Info from #{from}: #{String.slice(message["body"] || "", 0, 200)}")
 
       "response" ->
-        Logger.info("[MQ-WS] Response from #{from}: #{String.slice(message["body"] || "", 0, 200)}")
+        Logger.info(
+          "[MQ-WS] Response from #{from}: #{String.slice(message["body"] || "", 0, 200)}"
+        )
 
       "error" ->
         Logger.error("[MQ-WS] Error from #{from}: #{String.slice(message["body"] || "", 0, 200)}")
