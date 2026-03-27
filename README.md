@@ -110,6 +110,35 @@ browser handles most operations; the CDP relay covers edge cases requiring a vis
 > Pipeline definitions: [`spec/PIPELINES.md`](spec/PIPELINES.md)
 > Architecture decisions: [`spec/adr/`](spec/adr/)
 
+## Inter-Agent Message Queue (IAMQ)
+
+The workday agent participates in the OpenClaw agent swarm via the Inter-Agent
+Message Queue (IAMQ), using HTTP polling and WebSocket dual-mode transport
+(`Orchestrator.MqClient` for HTTP, `Orchestrator.MqWsClient` for WebSocket).
+
+| Property | Value |
+|----------|-------|
+| **Agent ID** | `workday_agent` |
+| **Transport** | HTTP + WebSocket |
+
+### Capabilities
+
+The agent advertises the following capabilities on the queue:
+
+- `workday_approvals` — HR task review and approval workflow
+- `time_tracking` — Daily time entry validation and submission
+- `hr_automation` — General Workday HR process automation
+- `browser_automation` — Headless browser operations (Playwright / CDP)
+- `task_management` — Workday inbox task coordination
+
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `IAMQ_HTTP_URL` | HTTP endpoint for the message queue (e.g. `http://localhost:4000/api/mq`) |
+| `IAMQ_WS_URL` | WebSocket endpoint for real-time messages (e.g. `ws://localhost:4000/ws/mq`) |
+| `IAMQ_AGENT_ID` | Agent identifier on the queue (default: `workday_agent`) |
+
 ## License
 
 MIT
