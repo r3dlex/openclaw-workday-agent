@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="Workday Agent logo" width="96" height="96">
+</p>
+
 # OpenClaw Workday Agent
 
 An [OpenClaw](https://docs.openclaw.ai/) agent that automates Workday HR operations

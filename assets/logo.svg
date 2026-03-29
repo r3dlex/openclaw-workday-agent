@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Building body -->
+  <rect x="24" y="40" width="80" height="76" rx="4" fill="#27AE60"/>
+  <!-- Building roof/top -->
+  <rect x="20" y="36" width="88" height="10" rx="3" fill="#27AE60"/>
+  <!-- Windows row 1 -->
+  <rect x="36" y="52" width="12" height="12" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="58" y="52" width="12" height="12" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="80" y="52" width="12" height="12" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Windows row 2 -->
+  <rect x="36" y="72" width="12" height="12" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="80" y="72" width="12" height="12" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Clock circle (center of building) -->
+  <circle cx="64" cy="78" r="11" fill="#FFFFFF"/>
+  <!-- Clock hands -->
+  <line x1="64" y1="78" x2="64" y2="70" stroke="#27AE60" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="64" y1="78" x2="70" y2="78" stroke="#27AE60" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Door -->
+  <rect x="54" y="98" width="20" height="18" rx="3" fill="#FFFFFF" opacity="0.9"/>
+</svg>
