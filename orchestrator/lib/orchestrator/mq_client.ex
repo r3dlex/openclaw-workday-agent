@@ -207,10 +207,17 @@ defmodule Orchestrator.MqClient do
     %{url: url, agent_id: agent_id} = config
 
     case Req.get("#{url}/inbox/#{agent_id}", params: [status: status], receive_timeout: 5_000) do
-      {:ok, %{status: 200, body: %{"messages" => messages}}} -> {:ok, messages}
-      {:ok, %{status: 200, body: body}} when is_list(body) -> {:ok, body}
-      {:ok, %{status: status_code, body: body}} -> {:error, "HTTP #{status_code}: #{inspect(body)}"}
-      {:error, reason} -> {:error, reason}
+      {:ok, %{status: 200, body: %{"messages" => messages}}} ->
+        {:ok, messages}
+
+      {:ok, %{status: 200, body: body}} when is_list(body) ->
+        {:ok, body}
+
+      {:ok, %{status: status_code, body: body}} ->
+        {:error, "HTTP #{status_code}: #{inspect(body)}"}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -238,7 +245,10 @@ defmodule Orchestrator.MqClient do
   defp do_ack(config, message_id, new_status) do
     %{url: url} = config
 
-    case Req.patch("#{url}/messages/#{message_id}", json: %{status: new_status}, receive_timeout: 5_000) do
+    case Req.patch("#{url}/messages/#{message_id}",
+           json: %{status: new_status},
+           receive_timeout: 5_000
+         ) do
       {:ok, %{status: status}} when status in [200, 204] -> :ok
       {:ok, %{status: status, body: body}} -> {:error, "HTTP #{status}: #{inspect(body)}"}
       {:error, reason} -> {:error, reason}
