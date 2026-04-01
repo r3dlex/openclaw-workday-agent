@@ -3,20 +3,20 @@
   <polygon points="64,96 54,112 74,112" fill="#E8453C"/>
   <polygon points="64,108 58,118 70,118" fill="#D63C34"/>
   <!-- Body -->
-  <ellipse cx="64" cy="72" rx="28" ry="24" fill="#E8453C"/>
+  <ellipse cx="64" cy="72" rx="28" ry="24" fill="#E8453C" stroke="#333" stroke-width="0.5"/>
   <ellipse cx="64" cy="78" rx="18" ry="14" fill="#F4A39C"/>
   <!-- Claw arms -->
   <rect x="36" y="48" width="10" height="18" rx="4" fill="#E8453C" transform="rotate(-20 41 57)"/>
   <rect x="82" y="48" width="10" height="18" rx="4" fill="#E8453C" transform="rotate(20 87 57)"/>
   <!-- Left claw -->
-  <circle cx="30" cy="45" r="14" fill="#E8453C"/>
+  <circle cx="30" cy="45" r="14" fill="#E8453C" stroke="#333" stroke-width="0.5"/>
   <circle cx="30" cy="45" r="9" fill="#F4A39C"/>
   <!-- Right claw -->
-  <circle cx="98" cy="45" r="14" fill="#E8453C"/>
+  <circle cx="98" cy="45" r="14" fill="#E8453C" stroke="#333" stroke-width="0.5"/>
   <circle cx="98" cy="45" r="9" fill="#F4A39C"/>
   <!-- Eyes -->
-  <circle cx="54" cy="60" r="7" fill="white"/>
-  <circle cx="74" cy="60" r="7" fill="white"/>
+  <circle cx="54" cy="60" r="7" fill="white" stroke="#333" stroke-width="0.3"/>
+  <circle cx="74" cy="60" r="7" fill="white" stroke="#333" stroke-width="0.3"/>
   <circle cx="56" cy="60" r="3" fill="#222"/>
   <circle cx="76" cy="60" r="3" fill="#222"/>
   <circle cx="54" cy="58" r="1.5" fill="white" opacity="0.8"/>
@@ -31,10 +31,10 @@
   <!-- Cheeks -->
   <ellipse cx="48" cy="70" rx="4" ry="2.5" fill="#F4A39C" opacity="0.6"/>
   <ellipse cx="80" cy="70" rx="4" ry="2.5" fill="#F4A39C" opacity="0.6"/>
-  <!-- Clipboard in right claw -->
+  <!-- Clipboard -->
   <g transform="translate(98,32) rotate(10)">
-    <rect x="-8" y="-10" width="16" height="22" rx="2" fill="#27AE60"/>
-    <rect x="-4" y="-12" width="8" height="4" rx="2" fill="#1E8449"/>
+    <rect x="-8" y="-10" width="16" height="22" rx="2" fill="#27AE60" stroke="#333" stroke-width="0.3"/>
+    <rect x="-4" y="-12" width="8" height="4" rx="2" fill="#1E8449" stroke="#333" stroke-width="0.3"/>
     <line x1="-5" y1="-4" x2="5" y2="-4" stroke="white" stroke-width="1"/>
     <line x1="-5" y1="-1" x2="5" y2="-1" stroke="white" stroke-width="1"/>
     <line x1="-5" y1="2" x2="3" y2="2" stroke="white" stroke-width="1"/>
@@ -43,7 +43,7 @@
   </g>
   <!-- Floating clock -->
   <g transform="translate(24,28)">
-    <circle cx="0" cy="0" r="8" fill="white" stroke="#27AE60" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="8" fill="white" stroke="#333" stroke-width="1"/>
     <line x1="0" y1="0" x2="0" y2="-5" stroke="#333" stroke-width="1.2" stroke-linecap="round"/>
     <line x1="0" y1="0" x2="4" y2="1" stroke="#333" stroke-width="1.2" stroke-linecap="round"/>
     <circle cx="0" cy="0" r="0.8" fill="#333"/>
