@@ -9,7 +9,15 @@ defmodule Orchestrator.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      test_coverage: [summary: [threshold: 10]]
+      test_coverage: [
+        summary: [threshold: 90],
+        ignore_modules: [
+          Orchestrator.Application,
+          Orchestrator.MqClient,
+          Orchestrator.MqWsClient,
+          Orchestrator.Browser.Headless
+        ]
+      ]
     ]
   end
 

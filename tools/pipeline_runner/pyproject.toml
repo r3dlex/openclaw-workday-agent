@@ -26,7 +26,7 @@ pipeline-runner = "pipeline_runner.main:main"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "--cov=pipeline_runner --cov-report=term-missing --cov-fail-under=45"
+addopts = "--cov=pipeline_runner --cov-report=term-missing --cov-fail-under=90"
 
 [build-system]
 requires = ["poetry-core"]
