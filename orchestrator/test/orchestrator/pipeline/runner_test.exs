@@ -8,6 +8,20 @@ defmodule Orchestrator.Pipeline.RunnerTest do
   # We test the step execution logic directly since the GenServer
   # depends on the Registry which has real pipeline definitions.
 
+  setup do
+    case Process.whereis(Orchestrator.Browser.Manager) do
+      nil -> {:ok, _} = Orchestrator.Browser.Manager.start_link([])
+      _ -> :ok
+    end
+
+    case Process.whereis(Runner) do
+      nil -> {:ok, _} = Runner.start_link([])
+      _ -> :ok
+    end
+
+    :ok
+  end
+
   describe "Step.execute/2" do
     test "successful step returns updated context" do
       step = Fixtures.success_step()

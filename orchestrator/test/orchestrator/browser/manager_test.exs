@@ -3,6 +3,15 @@ defmodule Orchestrator.Browser.ManagerTest do
 
   alias Orchestrator.Browser.Manager
 
+  setup do
+    case Process.whereis(Manager) do
+      nil -> {:ok, _} = Manager.start_link([])
+      _ -> :ok
+    end
+
+    :ok
+  end
+
   describe "status/0" do
     test "returns current strategy and health" do
       status = Manager.status()
