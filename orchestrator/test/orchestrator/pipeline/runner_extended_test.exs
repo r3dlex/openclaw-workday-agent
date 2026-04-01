@@ -89,8 +89,18 @@ defmodule Orchestrator.Pipeline.RunnerExtendedTest do
 
     test "context is threaded through all steps" do
       steps = [
-        %Step{name: "add_a", module: Orchestrator.Test.Fixtures.SuccessStep, function: :add_value, args: [:key_a, "value_a"]},
-        %Step{name: "add_b", module: Orchestrator.Test.Fixtures.SuccessStep, function: :add_value, args: [:key_b, "value_b"]}
+        %Step{
+          name: "add_a",
+          module: Orchestrator.Test.Fixtures.SuccessStep,
+          function: :add_value,
+          args: [:key_a, "value_a"]
+        },
+        %Step{
+          name: "add_b",
+          module: Orchestrator.Test.Fixtures.SuccessStep,
+          function: :add_value,
+          args: [:key_b, "value_b"]
+        }
       ]
 
       context = %{}
