@@ -48,9 +48,16 @@ htmlcov/
 _build/
 deps/
 .elixir_ls/
+.lexical/
 *.ez
+*.beam
 erl_crash.dump
+cover/
 orchestrator/cover/
+doc/
+priv/plts/
+*.plt
+*.plt.hash
 
 # === IDE ===
 .idea/
