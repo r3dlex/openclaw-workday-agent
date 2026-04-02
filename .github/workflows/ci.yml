@@ -190,6 +190,9 @@ jobs:
           MIX_ENV: test
           BROWSER_STRATEGY: headless_first
 
+      - name: Generate docs
+        run: mix docs
+
   elixir-format:
     name: Elixir Format
     runs-on: ubuntu-latest
