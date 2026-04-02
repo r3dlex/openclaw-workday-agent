@@ -143,6 +143,14 @@ The agent advertises the following capabilities on the queue:
 | `IAMQ_WS_URL` | WebSocket endpoint for real-time messages (e.g. `ws://localhost:4000/ws/mq`) |
 | `IAMQ_AGENT_ID` | Agent identifier on the queue (default: `workday_agent`) |
 
+## Related
+
+- [openclaw-inter-agent-message-queue](https://github.com/r3dlex/openclaw-inter-agent-message-queue) — IAMQ: message bus, agent registry, and cron scheduler
+  - [HTTP API reference](https://github.com/r3dlex/openclaw-inter-agent-message-queue/blob/main/spec/API.md)
+  - [Cron subsystem](https://github.com/r3dlex/openclaw-inter-agent-message-queue/blob/main/spec/CRON.md)
+  - [Sidecar client](https://github.com/r3dlex/openclaw-inter-agent-message-queue/tree/main/sidecar)
+- [openclaw-main-agent](https://github.com/r3dlex/openclaw-main-agent) — Cross-agent pipeline orchestrator
+
 ## License
 
 MIT
