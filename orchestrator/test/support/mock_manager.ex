@@ -105,8 +105,10 @@ defmodule Orchestrator.Test.MockManager do
   defp ensure_manager_running do
     case Process.whereis(Orchestrator.Browser.Manager) do
       nil ->
-        {:ok, _} = Orchestrator.Browser.Manager.start_link([])
-        :ok
+        case Orchestrator.Browser.Manager.start_link([]) do
+          {:ok, _} -> :ok
+          {:error, {:already_started, _}} -> :ok
+        end
 
       _ ->
         :ok
