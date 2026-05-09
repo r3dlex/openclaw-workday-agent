@@ -4,11 +4,11 @@
 # Usage: make <target>
 # =============================================================================
 
-.PHONY: help test test-python test-elixir test-all build up down clean lint
+.PHONY: help test test-python test-elixir test-all build up down logs shell restart clean lint
 
 PYTHON_DIR  := tools/pipeline_runner
 ELIXIR_DIR  := orchestrator
-COMPOSE     := docker compose
+COMPOSE     := docker-compose
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -54,6 +54,14 @@ up: ## Start all services
 
 down: ## Stop all services
 	$(COMPOSE) down
+
+logs: ## Tail service logs
+	$(COMPOSE) logs -f
+
+shell: ## Open a shell in the orchestrator container
+	$(COMPOSE) exec orchestrator sh
+
+restart: down up ## Restart all services (down + up)
 
 # ---------------------------------------------------------------------------
 # Legacy (Node.js CDP scripts)

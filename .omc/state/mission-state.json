@@ -1,0 +1,141 @@
+{
+  "updatedAt": "2026-04-14T09:26:25.170Z",
+  "missions": [
+    {
+      "id": "session:296133c0-f835-4bd3-aa3d-2f6d77a81deb:none",
+      "source": "session",
+      "name": "none",
+      "objective": "Session mission",
+      "createdAt": "2026-04-14T08:08:20.339Z",
+      "updatedAt": "2026-04-14T09:26:25.170Z",
+      "status": "running",
+      "workerCount": 9,
+      "taskCounts": {
+        "total": 9,
+        "pending": 0,
+        "blocked": 0,
+        "inProgress": 3,
+        "completed": 6,
+        "failed": 0
+      },
+      "agents": [
+        {
+          "name": "investigator-1:ab1bea9",
+          "role": "investigator-1",
+          "ownership": "ab1bea93fe9826ba5",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:12:42.164Z"
+        },
+        {
+          "name": "investigator-2:ae2b123",
+          "role": "investigator-2",
+          "ownership": "ae2b1232fc17c9b22",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:13:42.626Z"
+        },
+        {
+          "name": "investigator-3:af4d0ff",
+          "role": "investigator-3",
+          "ownership": "af4d0ffa7f671a811",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:14:50.419Z"
+        },
+        {
+          "name": "investigator-4:a19903f",
+          "role": "investigator-4",
+          "ownership": "a19903f6e4620d755",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:09:58.482Z"
+        },
+        {
+          "name": "investigator-4:a2f3540",
+          "role": "investigator-4",
+          "ownership": "a2f3540b64b737c98",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:11:39.069Z"
+        },
+        {
+          "name": "investigator-1:a15594b",
+          "role": "investigator-1",
+          "ownership": "a15594bb02252ef26",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:14:38.451Z"
+        },
+        {
+          "name": "investigator-2:aa4c0c9",
+          "role": "investigator-2",
+          "ownership": "aa4c0c9c357a95c2d",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:13:42.844Z"
+        },
+        {
+          "name": "investigator-3:a9d1c55",
+          "role": "investigator-3",
+          "ownership": "a9d1c558d0c0507da",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T08:14:50.633Z"
+        },
+        {
+          "name": "Explore:a85635e",
+          "role": "Explore",
+          "ownership": "a85635ec96299ead2",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-04-14T09:26:25.170Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "session-stop:af4d0ffa7f671a811:2026-04-14T08:14:50.419Z",
+          "at": "2026-04-14T08:14:50.419Z",
+          "kind": "completion",
+          "agent": "investigator-3:af4d0ff",
+          "detail": "completed",
+          "sourceKey": "session-stop:af4d0ffa7f671a811"
+        },
+        {
+          "id": "session-start:a9d1c558d0c0507da:2026-04-14T08:14:50.633Z",
+          "at": "2026-04-14T08:14:50.633Z",
+          "kind": "update",
+          "agent": "investigator-3:a9d1c55",
+          "detail": "started investigator-3:a9d1c55",
+          "sourceKey": "session-start:a9d1c558d0c0507da"
+        },
+        {
+          "id": "session-start:a85635ec96299ead2:2026-04-14T09:26:25.170Z",
+          "at": "2026-04-14T09:26:25.170Z",
+          "kind": "update",
+          "agent": "Explore:a85635e",
+          "detail": "started Explore:a85635e",
+          "sourceKey": "session-start:a85635ec96299ead2"
+        }
+      ]
+    }
+  ]
+}

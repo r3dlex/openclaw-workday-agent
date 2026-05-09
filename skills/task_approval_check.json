@@ -1,0 +1,13 @@
+{
+  "name": "task_approval_check",
+  "version": 1,
+  "quality_score": 0.5,
+  "description": "Check if a workday task requires approval and get its status",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "task_id": {"type": "string", "description": "ID of the workday task to check"}
+    },
+    "required": ["task_id"]
+  }
+}

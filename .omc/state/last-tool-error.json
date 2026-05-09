@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"docker start openclaw-main-agent-iamq-1 && sleep 3 && docker exec openclaw-main-agent-iamq-1 ls -la /root/.openclaw/identity/\",\"description\":\"Restart container and check identity directory...",
+  "error": "Exit code 1\nCannot connect to the Docker daemon at unix:///Users/redlexgilgamesh/.colima/default/docker.sock. Is the docker daemon running?\nfailed to start containers: openclaw-main-agent-iamq-1",
+  "timestamp": "2026-04-14T09:49:08.172Z",
+  "retry_count": 2
+}

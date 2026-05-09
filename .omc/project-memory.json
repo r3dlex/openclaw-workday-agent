@@ -1,0 +1,205 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776156676258,
+  "projectRoot": "/Volumes/Cowboy_Alpha/Ws/Openclaw/openclaw-workday-agent",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": ">=18.0.0",
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "C/C++",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "Makefile"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "npm",
+    "runtime": "Node.js 18.0.0"
+  },
+  "build": {
+    "buildCommand": "make build",
+    "testCommand": "make test",
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {
+      "approve": "node scripts/approve-workday.js",
+      "get-token": "node scripts/get-token.js",
+      "docker:build": "docker build -t openclaw-workday-agent .",
+      "docker:approve": "docker compose run --rm agent node scripts/approve-workday.js",
+      "docker:token": "docker compose run --rm agent node scripts/get-token.js"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "scripts",
+      "spec"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "artifacts": {
+      "path": "artifacts",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1776156676248,
+      "keyFiles": [
+        "approve_workday.js"
+      ]
+    },
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 6,
+      "lastAccessed": 1776156676248,
+      "keyFiles": [
+        "banner.svg",
+        "favicon.svg",
+        "github-avatar.svg",
+        "logo-dark.svg",
+        "logo-light.svg"
+      ]
+    },
+    "company-norms": {
+      "path": "company-norms",
+      "purpose": null,
+      "fileCount": 6,
+      "lastAccessed": 1776156676250,
+      "keyFiles": [
+        "INDEX.md",
+        "README.md",
+        "betriebsvereinbarung-arbeitszeit-de.md",
+        "betriebsvereinbarung-mobile-arbeit-de.md",
+        "mobile-working-agreement-en.md"
+      ]
+    },
+    "logs": {
+      "path": "logs",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1776156676250,
+      "keyFiles": [
+        "time_entry_update.log"
+      ]
+    },
+    "memory": {
+      "path": "memory",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1776156676250,
+      "keyFiles": [
+        "2026-03-27.md",
+        "2026-03-31.md"
+      ]
+    },
+    "orchestrator": {
+      "path": "orchestrator",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1776156676250,
+      "keyFiles": [
+        "Dockerfile",
+        "mix.exs",
+        "mix.lock"
+      ]
+    },
+    "reports": {
+      "path": "reports",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776156676250,
+      "keyFiles": []
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 2,
+      "lastAccessed": 1776156676250,
+      "keyFiles": [
+        "approve-workday.js",
+        "get-token.js"
+      ]
+    },
+    "skills": {
+      "path": "skills",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1776156676251,
+      "keyFiles": [
+        "task_approval_check.json",
+        "task_approval_check.md",
+        "task_approval_check.sh"
+      ]
+    },
+    "spec": {
+      "path": "spec",
+      "purpose": "Test specifications",
+      "fileCount": 14,
+      "lastAccessed": 1776156676251,
+      "keyFiles": [
+        "API.md",
+        "ARCHITECTURE.md",
+        "COMMUNICATION.md",
+        "CRON.md",
+        "LEARNINGS.md"
+      ]
+    },
+    "tools": {
+      "path": "tools",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776156676251,
+      "keyFiles": []
+    },
+    "artifacts/node_modules": {
+      "path": "artifacts/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1776156676251,
+      "keyFiles": []
+    },
+    "orchestrator/config": {
+      "path": "orchestrator/config",
+      "purpose": "Configuration files",
+      "fileCount": 5,
+      "lastAccessed": 1776156676251,
+      "keyFiles": [
+        "config.exs",
+        "dev.exs",
+        "prod.exs"
+      ]
+    },
+    "orchestrator/lib": {
+      "path": "orchestrator/lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1776156676251,
+      "keyFiles": [
+        "orchestrator.ex"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}

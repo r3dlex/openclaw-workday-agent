@@ -1,11 +1,30 @@
 """Configuration loaded from environment variables via pydantic-settings."""
 
+import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings
 
 # Resolve workspace root .env: tools/pipeline_runner/pipeline_runner/config.py -> repo root
-_WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
+# Fall back to WORKSPACE_ROOT env var or cwd if path calculation fails
+try:
+    _resolved = Path(__file__).resolve()
+    # normal path: config.py -> pipeline_runner/ -> tools/pipeline_runner/ -> tools/ -> repo_root (parents[4])
+    # symlink / venv path may be shorter; try multiple offsets
+    for n in [4, 3, 2]:
+        try:
+            _cand = _resolved.parents[n - 1] / ".env"
+            if _cand.exists() or n == 2:
+                _WORKSPACE_ROOT = _resolved.parents[n - 1]
+                break
+        except IndexError:
+            continue
+    else:
+        _WORKSPACE_ROOT = Path(os.environ.get("WORKSPACE_ROOT", "."))
+except Exception:
+    _WORKSPACE_ROOT = Path(os.environ.get("WORKSPACE_ROOT", "."))
+
+import os
 _ENV_FILES = [
     _WORKSPACE_ROOT / ".env",  # workspace root (primary)
     Path(".env"),               # cwd fallback

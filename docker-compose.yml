@@ -28,6 +28,11 @@ services:
       - IAMQ_HTTP_URL=http://host.docker.internal:18790
       - IAMQ_WS_URL=ws://host.docker.internal:18793/ws
       - IAMQ_AGENT_ID=workday_agent
+      - EMBEDDINGS_URL=http://host.docker.internal:18795
+    volumes:
+      - ../skills-cli:/skills-cli:ro
+      - ../skills:/workspace/skills:rw
+      - ./skills:/agent/skills:rw
 
   # --- Python Pipeline Runner (headless browser automation) ---
   pipeline-runner:
